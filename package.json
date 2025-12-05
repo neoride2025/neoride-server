@@ -1,0 +1,23 @@
+{
+  "name": "neoride-server",
+  "version": "1.0.0",
+  "description": "Node.js backend built with Express and Socket.IO, providing REST APIs and real-time communication support. Handles authentication, data processing, and live event updates with a scalable, modular architecture.",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neoride2025/neoride-server.git"
+  },
+  "author": "neoride",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/neoride2025/neoride-server/issues"
+  },
+  "homepage": "https://github.com/neoride2025/neoride-server#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "nodemon": "^3.1.11"
+  }
+}

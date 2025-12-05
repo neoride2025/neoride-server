@@ -20,4 +20,4 @@ initSockets(server);
 // ---------------------------
 // 3. Start Server
 // ---------------------------
-server.listen(PORT, HOST, () => console.log('server is listening...'));
+server.listen(3000, '127.0.0.1', () => console.log('server is listening...'));

@@ -9,4 +9,6 @@ router.use("/rides", rideRoutes);
 // health check
 router.get("/health", (req, res) => res.json({ ok: true, env: process.env.NODE_ENV || "dev" }));
 
+router.get("/verify/:name", (req, res) => res.json({ reqested_by: req.params.name, message:  `Hello There` }));
+
 module.exports = router;

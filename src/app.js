@@ -26,7 +26,7 @@ app.use(morgan("dev")); // logs requests
 // ---------------------------
 // 3. API Routes
 // ---------------------------
-app.use("/api", routes);
+app.use("/", routes);
 
 // ---------------------------
 // 4. Error Handler (must be last)

@@ -3,7 +3,8 @@ const http = require("http");
 const app = require("./app");
 const initSockets = require("./sockets");     // index.js inside sockets/
 
-const PORT = process.env.PORT || 5000;
+const HOST = process.env.HOST;
+const PORT = process.env.PORT;
 
 // ---------------------------
 // 1. Create HTTP Server
@@ -19,4 +20,4 @@ initSockets(server);
 // ---------------------------
 // 3. Start Server
 // ---------------------------
-server.listen(3000, '127.0.0.1', () => console.log('listening 127.0.0.1:3000'));
+server.listen(PORT, HOST, () => console.log('server is listening...'));

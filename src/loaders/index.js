@@ -2,12 +2,9 @@ const mongoose = require("mongoose");
 
 module.exports = async function loaders() {
   // load DB
-  const mongoUri = process.env.MONGO_URI || "mongodb://localhost:27017/rideapp";
+  const mongoUri = process.env.MONGO_URI;
   try {
-    await mongoose.connect(mongoUri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(mongoUri);
     console.log("✔ MongoDB connected");
   } catch (err) {
     console.error("✖ MongoDB connection error:", err.message);

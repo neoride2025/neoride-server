@@ -2,9 +2,11 @@ const express = require("express");
 const router = express.Router();
 
 const rideRoutes = require("./ride.routes");
-// const authRoutes = require("./auth.routes"); // add when ready
+const userRoutes = require("./user.routes");
 
-router.use("/rides", rideRoutes);
+router.use("/rides", rideRoutes); // ride related routes
+
+router.use("/users", userRoutes); // user related routes
 
 // health check
 router.get("/health", (req, res) => res.json({ env: process.env.NODE_ENV || "dev" }));

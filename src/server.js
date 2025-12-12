@@ -3,9 +3,6 @@ const http = require("http");
 const app = require("./app");
 const initSockets = require("./sockets");     // index.js inside sockets/
 
-const HOST = process.env.HOST;
-const PORT = process.env.PORT;
-
 // ---------------------------
 // 1. Create HTTP Server
 // ---------------------------

@@ -12,7 +12,7 @@ const app = express();
 // ---------------------------
 // 1. Load system dependencies
 // ---------------------------
-loaders(); // Example: DB connect, redis connect…
+// loaders(); // Example: DB connect, redis connect…
 
 // ---------------------------
 // 2. Global Middlewares

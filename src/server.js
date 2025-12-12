@@ -1,4 +1,5 @@
-require("dotenv").config();
+require('dotenv-flow').config();
+
 const http = require("http");
 const app = require("./app");
 const initSockets = require("./sockets");     // index.js inside sockets/
@@ -20,4 +21,4 @@ initSockets(server);
 // ---------------------------
 // 3. Start Server
 // ---------------------------
-server.listen(3000, '127.0.0.1', () => console.log('server is listening...'));
+server.listen(PORT, HOST, () => console.log('Server is listening...'));

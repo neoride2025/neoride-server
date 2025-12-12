@@ -1,7 +1,4 @@
-require("dotenv").config({
-  path: `.env.${process.env.NODE_ENV}`
-});
-
+require("dotenv").config();
 const http = require("http");
 const app = require("./app");
 const initSockets = require("./sockets");     // index.js inside sockets/

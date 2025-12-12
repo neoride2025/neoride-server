@@ -1,9 +1,6 @@
-// Load dotenv only if NOT running in production under PM2
-if (!process.env.NODE_ENV || process.env.NODE_ENV !== "production") {
-  require("dotenv").config({
-    path: `.env.${process.env.NODE_ENV || "development"}`
-  });
-}
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`
+});
 
 const http = require("http");
 const app = require("./app");

@@ -4,7 +4,8 @@
   "description": "Node.js backend built with Express and Socket.IO, providing REST APIs and real-time communication support. Handles authentication, data processing, and live event updates with a scalable, modular architecture.",
   "main": "src/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "NODE_ENV=development nodemon",
+    "prod": "NODE_ENV=production node src/server.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
+    "dotenv-flow": "^4.1.0",
     "express": "^5.2.1",
     "helmet": "^8.1.0",
     "mongoose": "^9.0.0",

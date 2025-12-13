@@ -3,8 +3,8 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 
-const routes = require("./routes");           // index.js inside routes/
-const errorMiddleware = require("./middlewares/error.middleware");
+// const routes = require("./routes");           // index.js inside routes/
+// const errorMiddleware = require("./middlewares/error.middleware");
 const loaders = require("./loaders");         // database, cache, etc.
 
 const app = express();
@@ -26,12 +26,12 @@ app.use(morgan("dev")); // logs requests
 // ---------------------------
 // 3. API Routes
 // ---------------------------
-app.use("/", routes);
+// app.use("/", routes);
 
 // ---------------------------
 // 4. Error Handler (must be last)
 // ---------------------------
-app.use(errorMiddleware);
+// app.use(errorMiddleware);
 
 
 module.exports = app;

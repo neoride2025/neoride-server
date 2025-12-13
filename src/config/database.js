@@ -1,11 +1,10 @@
 const mongoose = require("mongoose");
 
-// const config = require("../config/env");
+const config = require("./env");
 
 module.exports = async function loaders() {
   // load DB
-  const mongoUri = "mongodb://neoDevUser:f4a3ea8152656ae1cb381815824453ee@72.61.233.201:27017/neo_dev?authSource=neo_dev";
-  console.log('URI : ', mongoUri);
+  const mongoUri = config.mongoUri;
   try {
     await mongoose.connect(mongoUri);
     console.log("✔ MongoDB connected");

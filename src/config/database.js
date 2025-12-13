@@ -1,19 +1,19 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+const config = require('./env');
 
-const config = require("./env");
-
-module.exports = async function loaders() {
-  // load DB
-  const mongoUri = config.mongoUri;
+const connectDB = async () => {
   try {
-    await mongoose.connect(mongoUri);
-    console.log("✔ MongoDB connected");
-  } catch (err) {
-    console.error("✖ MongoDB connection error:", err.message);
-    // exit if DB is required
-    process.exit(1);
-  }
+    await mongoose.connect(config.mongoUri, {
+      autoIndex: false,
+      maxPoolSize: 10,
+      serverSelectionTimeoutMS: 5000,
+    });
 
-  // Add other initializers here (redis, job scheduler, feature flags, etc.)
-  // e.g. await initRedis();
+    console.log('MongoDB connected!');
+  } catch (err) {
+    console.error('MongoDB connection failed');
+    process.exit(1); // crash app if DB fails
+  }
 };
+
+module.exports = connectDB;

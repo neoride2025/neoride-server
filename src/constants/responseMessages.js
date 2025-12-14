@@ -71,7 +71,7 @@ module.exports = {
   TOKENS: {
     ACCESS_TOKEN: {
       MISSING: "Access Token missing",
-      EXPIRED: "Access Token expired",
+      EXPIRED: "ACCESS_TOKEN_EXPIRED", // to conditionally handle expired access token
       INVALID: "Invalid Access token",
     },
     REFRESH_TOKEN: {

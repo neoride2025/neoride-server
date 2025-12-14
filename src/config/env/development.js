@@ -19,4 +19,8 @@ module.exports = {
     windowMs: 15 * 60 * 1000, // 15 minutes
     maxRequests: 15, // limit each IP to 5 requests per windowMs
   },
+
+  // tokens
+  ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET,
+  REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET,
 };

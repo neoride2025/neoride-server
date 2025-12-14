@@ -3,7 +3,7 @@ const Contact = require("./contact.model");
 module.exports = {
   async submit(data) {
     try {
-      return Contact.create(data);
+      return await Contact.create(data);
     } catch (err) {
       next(err);
     }

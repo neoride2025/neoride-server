@@ -18,7 +18,8 @@ exports.contactInfo = async (req, res) => {
 
 exports.serviceTypes = async (req, res, next) => {
   try {
-    const data = await serviceTypeService.listActive();
+    const data = await serviceTypeService.list();
+    console.log('data : ', data);
     res.json({ status: 200, data });
   } catch (err) {
     res.status(500).json({ message: err.message });

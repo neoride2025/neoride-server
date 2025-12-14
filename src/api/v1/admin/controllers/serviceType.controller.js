@@ -1,8 +1,9 @@
-const serviceTypeService = require("../../../../modules/utils/serviceType.service");
+const serviceTypeService = require('../../../../modules/utils/service-type/serviceType.service');
 
 exports.list = async (req, res, next) => {
   try {
-    const data = await serviceTypeService.listActive();
+    const data = await serviceTypeService.list();
+    console.log('data : ', data);
     res.status(200).json({ code: 200, data });
   } catch (err) {
     res.status(500).json({ message: err.message });

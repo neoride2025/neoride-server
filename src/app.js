@@ -1,9 +1,5 @@
 const express = require("express");
-const cors = require("cors");
-const helmet = require("helmet");
-const morgan = require("morgan");
 
-// const routes = require("./routes");           // index.js inside routes/
 // const errorMiddleware = require("./middlewares/error.middleware");
 const loaders = require("./loaders"); // database, cache, etc.
 

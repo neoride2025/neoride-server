@@ -1,6 +1,6 @@
 const ServiceType = require('./serviceType.model');
 
-exports.listActive = () => {
+exports.list = () => {
   return ServiceType.find({ isActive: true });
 };
 

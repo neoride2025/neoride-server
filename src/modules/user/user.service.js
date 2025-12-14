@@ -13,6 +13,10 @@ module.exports = {
     return repo.findById(id);
   },
 
+  getUserByRole(role) {
+    return repo.findUserByRole(role);
+  },
+
   updateUser(id, data) {
     return repo.update(id, data);
   },

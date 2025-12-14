@@ -25,7 +25,7 @@ exports.validateSubmit = (data, allowedServiceTypes) => {
   // first name format validation (should not contain numbers or special characters except dot)
   if (!isValidName(data.fname)) {
     err.statusCode = 400;
-    err.message = MSG.CONTACT.NAME_INVALID;
+    err.message = MSG.USER.NAME_INVALID;
     throw err;
   }
 
@@ -39,28 +39,28 @@ exports.validateSubmit = (data, allowedServiceTypes) => {
   // email is required
   if (!data.email) {
     err.statusCode = 400;
-    err.message = MSG.CONTACT.EMAIL_REQUIRED;
+    err.message = MSG.USER.EMAIL_REQUIRED;
     throw err;
   }
 
   // validate the email address
   if (!isValidEmail(data.email)) {
     err.statusCode = 400;
-    err.message = MSG.CONTACT.EMAIL_INVALID;
+    err.message = MSG.USER.EMAIL_INVALID;
     throw err;
   }
 
   // mobile is required
   if (!data.mobile) {
     err.statusCode = 400;
-    err.message = MSG.CONTACT.MOBILE_REQUIRED;
+    err.message = MSG.USER.MOBILE_REQUIRED;
     throw err;
   }
 
   // validate the mobile number
   if (!isValidMobile(data.mobile)) {
     err.statusCode = 400;
-    err.message = MSG.CONTACT.MOBILE_INVALID;
+    err.message = MSG.USER.MOBILE_INVALID;
     throw err;
   }
 
@@ -79,8 +79,9 @@ exports.validateSubmit = (data, allowedServiceTypes) => {
 
   // check the message for unsafe characters
   if (!isSafeContactMessage(data.message)) {
+    console.log('enter');
     err.statusCode = 400;
-    err.message = MSG.CONTACT.MESSAGE_REQUIRED;
+    err.message = MSG.CONTACT.INVALID_MESSAGE;
     throw err;
   }
 };

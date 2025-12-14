@@ -140,3 +140,4 @@ vite.config.ts.timestamp-*
 
 # config files
 ecosystem.config.js
+.vscode/*

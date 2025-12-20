@@ -34,8 +34,6 @@ module.exports = {
   // }
 
   async logout(userId, payload) {
-    console.log('user IID : ', userId);
-    console.log('pay : ', payload);
     return await User.findOneAndUpdate({ _id: userId }, { ...payload });
   },
 };

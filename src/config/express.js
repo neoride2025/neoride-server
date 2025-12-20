@@ -12,8 +12,10 @@ module.exports = function initExpress({ app }) {
   console.log("Express initialized!!!");
   app.use(
     cors({
-      origin: '*', // Angular URL
-      credentials: true,
+      origin: "http://localhost:4200", // EXACT frontend origin
+      credentials: true, // REQUIRED for cookies
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization"],
     })
   );
   app.use(helmet());

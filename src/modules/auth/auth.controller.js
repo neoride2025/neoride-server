@@ -33,7 +33,6 @@ exports.register = async (req, res, next) => {
       isActive: role === Roles.MODERATOR ? false : true,
     };
     const user = await authService.register(newUser);
-    console.log("new user : ", user);
     res.status(201).json({
       success: true,
       message: MSG.USER.CREATED,
@@ -57,6 +56,7 @@ exports.login = async (req, res, next) => {
       throw err;
     }
 
+    // check the user is active
     if (!user?.isActive) {
       const err = new Error();
       err.statusCode = 403;
@@ -108,7 +108,7 @@ exports.login = async (req, res, next) => {
 exports.refreshToken = async (req, res, next) => {
   try {
     const refreshToken = req.cookies.refreshToken;
-    if (!refreshToken) throw { statusCode: 401, message: MSG.TOKENS.REFRESH_TOKEN.MISSING };
+    if (!refreshToken) throw { statusCode: 401, message: MSG.TOKEN.REFRESH_TOKEN.MISSING };
 
     const payload = jwt.verify(refreshToken, config.REFRESH_TOKEN_SECRET);
     const user = await authService.findUserByUsrId(payload._id);
@@ -124,7 +124,7 @@ exports.refreshToken = async (req, res, next) => {
     }
 
     if (!user || user.refreshToken !== refreshToken) {
-      throw { statusCode: 403, message: MSG.TOKENS.REFRESH_TOKEN.INVALID };
+      throw { statusCode: 403, message: MSG.TOKEN.REFRESH_TOKEN.INVALID };
     }
 
     const newAccessToken = generateAccessToken(user);
@@ -134,7 +134,7 @@ exports.refreshToken = async (req, res, next) => {
     user.refreshToken = newRefreshToken; // ✅ DB UPDATED
     await user.save();
 
-    res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
+    res.cookie("refreshToken", newRefreshToken, COOKIE_OPTIONS);
 
     res.status(200).json({ status: 200, accessToken: newAccessToken });
   } catch (err) {

@@ -10,7 +10,8 @@ module.exports = (req, res, next) => {
   try {
     req.user = jwt.verify(token, config.ACCESS_TOKEN_SECRET);
     next();
-  } catch {
+  } catch(err) {
+    // console.log(err)
     next({ statusCode: 401, message: 'Invalid or expired token' });
   }
 };

@@ -68,7 +68,7 @@ module.exports = {
     TOO_MANY_REQUESTS: "Too many requests. Please try again later.",
   },
 
-  TOKENS: {
+  TOKEN: {
     ACCESS_TOKEN: {
       MISSING: "Access Token missing",
       EXPIRED: "ACCESS_TOKEN_EXPIRED", // to conditionally handle expired access token
@@ -79,5 +79,24 @@ module.exports = {
       EXPIRED: "Refresh Token expired",
       INVALID: "Invalid Refresh token",
     },
+  },
+
+  MODULE: {
+    CREATION_SUCCESS: "Module created successfully",
+    VALIDATION_FAILED: "Module validation failed",
+    EXISTS: "Module already exists",
+    CREATION_FAILED: "Module creation failed",
+    UPDATED: "Module updated successfully",
+    DELETED: "Module deleted successfully",
+    NOT_FOUND: "Module not found",
+  },
+  PERMISSION: {
+    CREATION_SUCCESS: "Permission created successfully",
+    VALIDATION_FAILED: "Permission validation failed",
+    EXISTS: "Permission already exists",
+    CREATION_FAILED: "ModPermissionule creation failed",
+    UPDATED: "Permission updated successfully",
+    DELETED: "Permission deleted successfully",
+    NOT_FOUND: "Permission not found",
   },
 };

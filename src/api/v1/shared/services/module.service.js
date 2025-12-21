@@ -15,7 +15,7 @@ module.exports = {
 
   async getPermissionsGroupedByModule() {
     try {
-      return moduleRepo.getPermissionsGroupedByModule();
+      return await moduleRepo.getPermissionsGroupedByModule();
     } catch (err) {
       throw new AppError(500, MSG.COMMON.INTERNAL_ERROR);
     }

@@ -4,4 +4,4 @@ exports.nameRegex = /^[a-zA-Z][a-zA-Z\s.]{3,20}$/;
 exports.passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^_+\-=])[A-Za-z\d@$!%*?&#^_+\-=]{6,18}$/
 exports.contactMessageRegex = /^[a-zA-Z0-9\s.,'"?&]+$/;
 exports.commonNameRegex = /^[a-zA-Z &_\-.]{3,25}$/;
-exports.commonKeyRegex = /^[a-zA-Z_]{3,30}$/;
+exports.commonKeyRegex = /^[A-Z_]{3,30}$/;

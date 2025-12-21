@@ -17,6 +17,8 @@ exports.createModerator = async (req, res, next) => {
       });
     }
     // value is sanitized & safe
+    // set created by (value from req.user.sub)
+    value.createdBy = req.user.sub;
     const role = await roleService.createRole(value);
     res.status(201).json({
       status: 201,

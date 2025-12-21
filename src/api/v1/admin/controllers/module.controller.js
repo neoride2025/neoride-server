@@ -4,6 +4,8 @@ const MSG = require("../../../../constants/response-messages");
 
 const { createModuleSchema } = require("../../../../schemas/module.schema");
 
+const { toCapsWithUnderscore } = require("../../../../utils/Helper");
+
 exports.createModule = async (req, res, next) => {
   try {
     const { error, value } = createModuleSchema.validate(req.body, {
@@ -17,6 +19,10 @@ exports.createModule = async (req, res, next) => {
       });
     }
     // value is sanitized & safe
+    // set created by (value from req.user.sub)
+    value.createdBy = req.user.sub;
+    // create key for the module with the module name (use Help function)
+    value.key = toCapsWithUnderscore(value.name); // pass name, it'll generate the KEY
     const module = await moduleService.createModule(value); // will contain raw document data
     const newModule = await moduleService.getModuleById(module._id); // will contain populated data
     res.status(201).json({
@@ -25,7 +31,7 @@ exports.createModule = async (req, res, next) => {
       data: newModule,
     });
   } catch (err) {
-    console.log('err : ', err);
+    console.log("err : ", err);
     next(err);
   }
 };

@@ -1,8 +1,13 @@
 const Module = require("../../../../models/module.model");
 
+// to create modules
+exports.createModule = async (module) => {
+  return await Module.create(module);
+};
+
 // function to get permissions in modules based
 exports.getPermissionsGroupedByModule = async () => {
-  return Module.aggregate([
+  return await Module.aggregate([
     {
       $match: { isActive: true },
     },
@@ -43,14 +48,12 @@ exports.getAllModules = async () => {
   return await Module.find().populate({ path: "createdBy", select: "name email role" }).lean();
 };
 
+// will return only active modules
 exports.getAllActiveModules = async () => {
   return await Module.find({ isActive: true }).lean();
 };
 
-exports.createModule = async (module) => {
-  return await Module.create(module);
-};
-
+// find module by id
 exports.findModuleById = async (id) => {
-  return await Module.findById(id).populate({ path: "createdBy", select: "name email role" });
+  return await Module.findById(id).populate({ path: "createdBy", select: "name email role" }).lean();
 };

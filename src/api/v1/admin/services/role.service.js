@@ -1,6 +1,7 @@
 const cache = require("../cache/permission.cache");
 const roleRepo = require("../repositories/role.repository");
 
+const AppError = require("../../../../utils/AppError");
 const MSG = require("../../../../constants/response-messages");
 
 module.exports = {
@@ -8,12 +9,7 @@ module.exports = {
     try {
       return await roleRepo.createRole(role);
     } catch (err) {
-      if (err.code === 11000) {
-        return {
-          statusCode: 409,
-          message: MSG.ROLE.NAME_EXISTS,
-        };
-      }
+      if (err.code === 11000) throw new AppError(400, MSG.ROLE.EXISTS);
     }
   },
 
@@ -30,10 +26,9 @@ module.exports = {
 
   async getAllRoles() {
     try {
-      return roleRepo.listAllRoles();
+      return await roleRepo.listAllRoles();
     } catch (err) {
-      console.log("err : ", err);
-      return err;
+      throw new AppError(500, MSG.COMMON.INTERNAL_ERROR);
     }
   },
 };

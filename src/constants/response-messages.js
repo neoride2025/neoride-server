@@ -124,7 +124,7 @@ module.exports = {
     DATA_FOUND: "Roles data found",
 
     NAME_REQUIRED: "Role name is required",
-    NAME_INVALID: "Role name must be uppercase (ADMIN, MODERATOR)",
+    NAME_INVALID: "Role name must be uppercase (Administrator, Moderator, Support)",
     NAME_MIN_LENGTH: `Role name must be at least ${COMMON_NAME_MIN_LENGTH} characters long`,
     NAME_MAX_LENGTH: `Role name must be at most ${COMMON_NAME_MAX_LENGTH} characters long`,
 
@@ -205,12 +205,12 @@ module.exports = {
     DATA_FOUND: "Permissions data found",
 
     NAME_REQUIRED: "Permission name is required",
-    NAME_INVALID: "Permission name must be uppercase (ADMIN, MODERATOR)",
+    NAME_INVALID: "Permission name must contain Resource and Action (Dashboard View, Support Update, Support Delete)",
     NAME_MIN_LENGTH: `Permission name must be at least ${COMMON_NAME_MIN_LENGTH} characters long`,
     NAME_MAX_LENGTH: `Permission name must be at most ${COMMON_NAME_MAX_LENGTH} characters long`,
 
-    KEY_REQUIRED: "Permission key is required",
-    KEY_INVALID: "Permission key must be uppercase (READ, WRITE, DELETE)",
+    NO_EMPTY: "Permission name cannot be empty",
+    ACTION_RESOURCE_REQUIRED: "Label must contain action and resource",
   },
 
   // -------------------- CONTACT --------------------

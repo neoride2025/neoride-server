@@ -4,24 +4,27 @@ const AppError = require("../../../../utils/AppError");
 const MSG = require("../../../../constants/response-messages");
 
 module.exports = {
-  async getRolesAsGrouped() {
-    return permissionRepo.getRolesAsGrouped();
-  },
-
   async createPermission(permission) {
-    return permissionRepo.createPermission(permission);
-  },
-
-  async getAllPermissions() {
     try {
-      return permissionRepo.getAllPermissions();
+      return await permissionRepo.createPermission(permission);
     } catch (err) {
-      console.log("err : ", err);
       if (err.code === 11000) throw new AppError(400, MSG.PERMISSION.EXISTS);
     }
   },
 
+  async getAllPermissions() {
+    try {
+      return await permissionRepo.getAllPermissions();
+    } catch (err) {
+      throw new AppError(500, MSG.COMMON.INTERNAL_ERROR);
+    }
+  },
+
   async getPermissionById(id) {
-    return permissionRepo.findPermissionById(id);
+    try {
+      return await permissionRepo.findPermissionById(id);
+    } catch (err) {
+      throw new AppError(500, MSG.COMMON.INTERNAL_ERROR);
+    }
   },
 };

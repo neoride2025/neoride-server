@@ -1,0 +1,14 @@
+const MSG = require("../../constants/response-messages");
+const { getPermissionsForRole } = require("../../api/v1/admin/controllers/permission.controller");
+
+module.exports = (requiredPermissions = []) => {
+  return async (req, res, next) => {
+    const role = req.user.role;
+    console.log('req.user.role : ', role);
+    const permissions = await getPermissionsForRole(role);
+    if (!permissions.some((p) => requiredPermissions.includes(p))) {
+      return next({ statusCode: 403, message: MSG.AUTHORIZATION.ADMIN_ACCESS_ONLY });
+    }
+    next();
+  };
+};

@@ -2,6 +2,8 @@ const connectDB = require("../config/database");
 const initSockets = require("../config/socket");
 const redis = require("../config/redis");
 const initExpress = require("../config/express");
+require("../loaders/mongoose-models"); // to load all models
+
 
 module.exports = async function loaders({app}) {
   // Load Database

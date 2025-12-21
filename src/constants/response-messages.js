@@ -18,6 +18,7 @@ module.exports = {
     FORBIDDEN: "Access denied",
     BAD_REQUEST: "Bad request",
     VALIDATION_FAILED: "Validation failed",
+    ONLY_ADMIN: "Only admin can perform this action",
 
     DESCRIPTION_TOO_LONG: `Description must be less than ${DESCRIPTION_MAX_LENGTH} characters`,
 
@@ -231,11 +232,13 @@ module.exports = {
       MISSING: "Access token missing",
       EXPIRED: "ACCESS_TOKEN_EXPIRED",
       INVALID: "Invalid access token",
+      GENERATED: "Access token generated successfully",
     },
     REFRESH: {
       MISSING: "Refresh token missing",
       EXPIRED: "Refresh token expired",
       INVALID: "Invalid refresh token",
+      GENERATED: "Refresh token generated successfully",
     },
   },
 

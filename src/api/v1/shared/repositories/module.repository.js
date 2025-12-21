@@ -40,11 +40,11 @@ exports.getPermissionsGroupedByModule = async () => {
 
 // irrespective af active all modules
 exports.getAllModules = async () => {
-  return Module.find().populate({ path: "createdBy", select: "name email role" });
+  return await Module.find().populate({ path: "createdBy", select: "name email role" }).lean();
 };
 
 exports.getAllActiveModules = async () => {
-  return Module.find({ isActive: true });
+  return await Module.find({ isActive: true }).lean();
 };
 
 exports.createModule = async (module) => {

@@ -67,6 +67,7 @@ exports.getAllPermissions = async (req, res, next) => {
       data: permissions,
     });
   } catch (err) {
+    console.log('err : ', err);
     next(err);
   }
 };

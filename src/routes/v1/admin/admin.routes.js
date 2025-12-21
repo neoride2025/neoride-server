@@ -47,16 +47,16 @@ router.post(
   moduleCtrl.createModule
 );
 // to get all modules
-router.get("/modules", verifyToken, requireAdmin, requirePermission(["MODULES_MANAGE"]), moduleCtrl.getAllModules);
+router.get("/modules", verifyToken, requirePermission(["MODULES_MANAGE"]), moduleCtrl.getAllModules);
 
 //#endregion
 
 //#region Permissions
 
 // to get all permissions
-router.get("/permissions", verifyToken, requireAdmin, requirePermission(["PERMISSIONS_MANAGE"]), permissionCtrl.getAllPermissions);
+router.get("/permissions", verifyToken, requirePermission(["PERMISSIONS_MANAGE"]), permissionCtrl.getAllPermissions);
 // to create a permission
-router.post("/create-permission", verifyToken, requireAdmin, requirePermission(["PERMISSIONS_MANAGE"]), permissionCtrl.createPermission);
+router.post("/create-permission", verifyToken, requirePermission(["PERMISSIONS_MANAGE"]), permissionCtrl.createPermission);
 
 //#endregion
 

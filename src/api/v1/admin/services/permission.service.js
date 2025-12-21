@@ -1,5 +1,8 @@
 const permissionRepo = require("../repositories/permission.repository");
 
+const AppError = require("../../../../utils/AppError");
+const MSG = require("../../../../constants/response-messages");
+
 module.exports = {
   async getRolesAsGrouped() {
     return permissionRepo.getRolesAsGrouped();
@@ -14,12 +17,7 @@ module.exports = {
       return permissionRepo.getAllPermissions();
     } catch (err) {
       console.log("err : ", err);
-      if (err.code === 11000) {
-        return {
-          statusCode: 409,
-          message: MSG.ROLE.NAME_EXISTS,
-        };
-      }
+      if (err.code === 11000) throw new AppError(400, MSG.PERMISSION.EXISTS);
     }
   },
 

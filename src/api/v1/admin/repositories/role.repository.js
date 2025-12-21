@@ -2,11 +2,11 @@ const Role = require("../../../../models/role.model");
 
 module.exports = {
   async createRole(role) {
-    return Role.create(role);
+    return await Role.create(role);
   },
 
   async listAllRoles() {
-    return Role.find().populate({ path: "createdBy", select: "name email role isActive" }).lean();
+    return await Role.find().populate({ path: "createdBy", select: "name email role isActive" }).lean();
   },
 
   async getPermissionsByRoleKey(roleKey) {

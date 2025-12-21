@@ -6,5 +6,5 @@ exports.generateAccessToken = (user) => {
 };
 
 exports.generateRefreshToken = (user) => {
-  return jwt.sign({ userId: user._id }, jwtConfig.REFRESH_TOKEN_SECRET, { expiresIn: jwtConfig.REFRESH_TOKEN_EXPIRY });
+  return jwt.sign({ _id: user._id }, jwtConfig.REFRESH_TOKEN_SECRET, { expiresIn: jwtConfig.REFRESH_TOKEN_EXPIRY });
 };

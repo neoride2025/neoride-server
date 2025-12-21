@@ -1,5 +1,7 @@
 const moduleRepo = require("../repositories/module.repository");
 
+const AppError = require("../../../../utils/AppError");
+
 const MSG = require("../../../../constants/response-messages");
 
 module.exports = {
@@ -7,12 +9,7 @@ module.exports = {
     try {
       return await moduleRepo.createModule(module);
     } catch (err) {
-      if (err.code === 11000) {
-        throw {
-          statusCode: 409,
-          message: MSG.MODULE.EXISTS,
-        };
-      }
+      if (err.code === 11000) throw new AppError(409, MSG.MODULE.EXISTS);
     }
   },
 
@@ -20,8 +17,7 @@ module.exports = {
     try {
       return moduleRepo.getPermissionsGroupedByModule();
     } catch (err) {
-      console.log("err : ", err);
-      return err;
+      throw new AppError(500, MSG.COMMON.INTERNAL_ERROR);
     }
   },
 
@@ -30,8 +26,7 @@ module.exports = {
     try {
       return await moduleRepo.getAllModules();
     } catch (err) {
-      console.log("err : ", err);
-      return err;
+      throw new AppError(500, MSG.COMMON.INTERNAL_ERROR);
     }
   },
 
@@ -39,8 +34,7 @@ module.exports = {
     try {
       return moduleRepo.getAllActiveModules();
     } catch (err) {
-      console.log("err : ", err);
-      return err;
+      throw new AppError(500, MSG.COMMON.INTERNAL_ERROR);
     }
   },
 
@@ -48,8 +42,7 @@ module.exports = {
     try {
       return await moduleRepo.findModuleById(id);
     } catch (err) {
-      console.log("err : ", err);
-      return err;
+      throw new AppError(500, MSG.COMMON.INTERNAL_ERROR);
     }
   },
 };

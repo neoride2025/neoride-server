@@ -3,8 +3,10 @@ const router = express.Router();
 
 const authCtrl = require("../../../api/v1/admin/controllers/auth.controller");
 
+const verifyToken = require("../../../middlewares/auth/verify-token");
+
 router.post("/login", authCtrl.login);
-// router.post("/refresh-token", adminAuthCtrl.refreshToken);
-// router.post("/logout", adminAuthCtrl.logout);
+router.post("/refresh-token", authCtrl.refreshToken);
+router.post("/logout", authCtrl.logout);
 
 module.exports = router;

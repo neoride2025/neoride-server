@@ -7,7 +7,7 @@ module.exports = (requiredPermissions = []) => {
     console.log('req.user.role : ', role);
     const permissions = await getPermissionsForRole(role);
     if (!permissions.some((p) => requiredPermissions.includes(p))) {
-      return next({ statusCode: 403, message: MSG.AUTHORIZATION.ADMIN_ACCESS_ONLY });
+      return next({ statusCode: 403, message: MSG.COMMON.FORBIDDEN });
     }
     next();
   };

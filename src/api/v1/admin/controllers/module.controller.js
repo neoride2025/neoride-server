@@ -4,47 +4,43 @@ const MSG = require("../../../../constants/response-messages");
 
 const { createModuleSchema } = require("../../../../schemas/module.schema");
 
-const { toCapsWithUnderscore } = require("../../../../utils/Helper");
-
-exports.createModule = async (req, res, next) => {
-  try {
-    const { error, value } = createModuleSchema.validate(req.body, {
-      abortEarly: true,
-      stripUnknown: true,
-    });
-
-    if (error) {
-      return res.status(400).json({
-        message: error.details[0].message,
+module.exports = {
+  async createModule(req, res, next) {
+    try {
+      const { error, value } = createModuleSchema.validate(req.body, {
+        abortEarly: true,
+        stripUnknown: true,
       });
-    }
-    // value is sanitized & safe
-    // set created by (value from req.user.sub)
-    value.createdBy = req.user.sub;
-    // create key for the module with the module name (use Help function)
-    value.key = toCapsWithUnderscore(value.name); // pass name, it'll generate the KEY
-    const module = await moduleService.createModule(value); // will contain raw document data
-    const newModule = await moduleService.getModuleById(module._id); // will contain populated data
-    res.status(201).json({
-      status: 201,
-      message: MSG.MODULE.CREATED,
-      data: newModule,
-    });
-  } catch (err) {
-    console.log("err : ", err);
-    next(err);
-  }
-};
 
-exports.getAllModules = async (req, res, next) => {
-  try {
-    const modules = await moduleService.getAllModules();
-    res.status(200).json({
-      status: 200,
-      message: MSG.MODULE.DATA_FOUND,
-      data: modules,
-    });
-  } catch (err) {
-    next(err);
-  }
+      if (error) {
+        return res.status(400).json({
+          status: 400,
+          message: error.details[0].message,
+        });
+      }
+      // value is sanitized & safe
+      const MODULE = await moduleService.createModule(value, req.user.sub); // set created by (value from req.user.sub)
+      const newModule = await moduleService.getModuleById(MODULE._id); // will contain populated data
+      res.status(201).json({
+        status: 201,
+        message: MSG.MODULE.CREATED,
+        data: newModule,
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  async getAllModules(req, res, next) {
+    try {
+      const modules = await moduleService.getAllModules();
+      res.status(200).json({
+        status: 200,
+        message: MSG.MODULE.DATA_FOUND,
+        data: modules,
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
 };

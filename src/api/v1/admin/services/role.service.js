@@ -1,34 +1,48 @@
 const cache = require("../cache/permission.cache");
 const roleRepo = require("../repositories/role.repository");
-
 const AppError = require("../../../../utils/AppError");
-const MSG = require("../../../../constants/response-messages");
+const responseMessage = require("../../../../constants/response-messages");
+const ROLES = require("../../../../constants/roles");
 
 module.exports = {
-  async createRole(role) {
+  async createRole(value, sub) {
     try {
-      return await roleRepo.createRole(role);
+      value.createdBy = sub;
+      value.key = ROLES.ADMIN; // will hold th e ADMIN key (this is the role key for all admin login moderators)
+      return await roleRepo.create(value);
     } catch (err) {
-      if (err.code === 11000) throw new AppError(400, MSG.ROLE.EXISTS);
+      if (err.code === 11000) throw new AppError(400, responseMessage.ROLE.EXISTS);
     }
   },
 
   async getPermissionsByRoleKey(roleKey) {
-    if (cache.get(roleKey)) {
-      return cache.get(roleKey); // ✅ NO DB
+    try {
+      if (cache.get(roleKey)) {
+        return cache.get(roleKey); // ✅ NO DB
+      }
+
+      const permissions = await roleRepo.findByKey(roleKey);
+      cache.set(roleKey, permissions);
+
+      return permissions;
+    } catch (err) {
+      throw new AppError(500, responseMessage.COMMON.INTERNAL_ERROR);
     }
-
-    const permissions = await roleRepo.getPermissionsByRoleKey(roleKey);
-    cache.set(roleKey, permissions);
-
-    return permissions;
   },
 
   async getAllRoles() {
     try {
-      return await roleRepo.listAllRoles();
+      return await roleRepo.findAll();
     } catch (err) {
-      throw new AppError(500, MSG.COMMON.INTERNAL_ERROR);
+      throw new AppError(500, responseMessage.COMMON.INTERNAL_ERROR);
+    }
+  },
+
+  async getRoleDetailsById(id) {
+    try {
+      return await roleRepo.findById(id);
+    } catch (err) {
+      throw new AppError(500, responseMessage.COMMON.INTERNAL_ERROR);
     }
   },
 };

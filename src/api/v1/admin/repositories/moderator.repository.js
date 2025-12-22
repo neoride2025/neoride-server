@@ -1,34 +1,37 @@
-const Permission = require("../../../../models/permission.model");
+const Moderator = require("../../../../models/moderator.model");
 
 module.exports = {
-  async createPermission(permission) {
-    return await Permission.create(permission);
+  // create moderator function
+  async createModerator(moderator) {
+    return await Moderator.create(moderator);
   },
 
-  async getPermissions() {
-    return await Permission.aggregate(permissionBasePipeline());
+  // list all the moderators without condition
+  async listModerators() {
+    return await Moderator.aggregate(moderatorBasePipeline());
   },
 
-  async findPermissionById(_id) {
-    const res = await Permission.aggregate([{ $match: { _id } }, ...moderatorBasePipeline()]);
+  // find one single moderator by passing the _id
+  async findModeratorById(_id) {
+    const res = await Moderator.aggregate([{ $match: { _id } }, ...moderatorBasePipeline()]);
     return res[0] || null;
   },
 };
 
 // common pipeline to get populated doc details
-const permissionBasePipeline = () => [
-  // 1️⃣ Populate module → modules
+const moderatorBasePipeline = () => [
+  // 1️⃣ Populate moderator.role → roles
   {
     $lookup: {
-      from: "modules",
-      localField: "module",
+      from: "roles",
+      localField: "role",
       foreignField: "_id",
-      as: "module",
+      as: "role",
     },
   },
   {
     $unwind: {
-      path: "$module",
+      path: "$role",
       preserveNullAndEmptyArrays: true,
     },
   },
@@ -68,26 +71,27 @@ const permissionBasePipeline = () => [
   // 4️⃣ Final projection
   {
     $project: {
-      key: 1,
-      label: 1,
-      description: 1,
-      isActive: 1,
+      name: 1,
+      email: 1,
       createdAt: 1,
+      isActive: 1,
+      permissions: 1,
 
-      module: {
-        _id: "$module._id",
-        key: "$module.key",
-        name: "$module.name",
+      role: {
+        _id: "$role._id",
+        key: "$role.key",
+        name: "$role.name",
+        permissions: "$role.permissions",
       },
 
       createdBy: {
         _id: "$createdBy._id",
         name: "$createdBy.name",
-        email: "$createdBy.email",
         role: {
           _id: "$createdBy.role._id",
           key: "$createdBy.role.key",
           name: "$createdBy.role.name",
+          permissions: "$createdBy.role.permissions",
         },
       },
     },

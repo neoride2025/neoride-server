@@ -3,8 +3,8 @@ const { getPermissionsForRole } = require("../../api/v1/admin/controllers/permis
 
 module.exports = (requiredPermissions = []) => {
   return async (req, res, next) => {
-    const role = req.user.role;
-    const permissions = await getPermissionsForRole(role);
+    const type = req.user.type;
+    const permissions = await getPermissionsForRole(type);
     if (!permissions.some((p) => requiredPermissions.includes(p))) {
       return next({ statusCode: 403, message: MSG.COMMON.FORBIDDEN });
     }

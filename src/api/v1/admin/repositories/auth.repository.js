@@ -1,6 +1,8 @@
 const Moderator = require("../../../../models/moderator.model");
 
 module.exports = {
+  // find the moderator details by email
+  // this will return only password (for verification), isActive (check can login), role (user role, to proceed admin login)
   async findByEmailWithPassword(email) {
     return await Moderator.findOne({ email })
       .select("+password isActive role")

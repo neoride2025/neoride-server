@@ -1,55 +1,51 @@
 const Joi = require("joi");
-const MSG = require("../constants/response-messages");
+const responseMessage = require("../constants/response-messages");
+const utilConfig = require("../utils/util-config");
+const regex = require("../validators/common/regex");
 
-const { nameRegex, emailRegex, mobileRegex, contactMessageRegex } = require("../validators/common/regex");
+module.exports = {
+  create: Joi.object({
+    name: Joi.string().trim().pattern(regex.name).required().messages({
+      "string.empty": responseMessage.MODERATOR.NAME_REQUIRED,
+      "string.min": responseMessage.COMMON.NAME_MIN_LENGTH,
+      "string.max": responseMessage.COMMON.NAME_MAX_LENGTH,
+      "any.required": responseMessage.COMMON.NAME_REQUIRED,
+    }),
 
-exports.createModeratorSchema = Joi.object({
-  // name: Joi.string().trim().min(2).max(50).required().messages({
-  //   "string.empty": MSG.COMMON.NAME_REQUIRED,
-  //   "string.min": MSG.COMMON.NAME_LENGTH_MIN,
-  //   "string.max": MSG.COMMON.NAME_LENGTH_MAX,
-  //   "any.required": MSG.COMMON.NAME_REQUIRED,
-  // }),
+    email: Joi.string().email().lowercase().pattern(regex.email).required().messages({
+      "string.email": responseMessage.COMMON.EMAIL_INVALID,
+      "any.required": responseMessage.COMMON.EMAIL_REQUIRED,
+    }),
 
-  // email: Joi.string().email().lowercase().required().messages({
-  //   "string.email": MSG.MODERATOR.EMAIL_INVALID,
-  //   "any.required": MSG.MODERATOR.EMAIL_REQUIRED,
-  // }),
+    mobile: Joi.string().pattern(regex.mobile).allow(null, "").messages({
+      "string.empty": responseMessage.COMMON.MOBILE_REQUIRED,
+      "any.required": responseMessage.COMMON.MOBILE_REQUIRED,
+      "string.pattern.base": responseMessage.COMMON.MOBILE_INVALID,
+    }),
 
-  // mobile: Joi.string()
-  //   .pattern(/^[0-9]{10,15}$/)
-  //   .allow(null, "")
-  //   .messages({
-  //     "string.pattern.base": MSG.MODERATOR.MOBILE_INVALID,
-  //   }),
+    password: Joi.string().min(utilConfig.PASSWORD_MIN_LENGTH).max(utilConfig.PASSWORD_MAX_LENGTH).required().messages({
+      "string.min": responseMessage.COMMON.PASSWORD_WEAK,
+      "any.required": responseMessage.COMMON.PASSWORD_REQUIRED,
+    }),
 
-  // password: Joi.string().min(8).max(30).required().messages({
-  //   "string.min": MSG.MODERATOR.PASSWORD_WEAK,
-  //   "any.required": MSG.MODERATOR.PASSWORD_REQUIRED,
-  // }),
+    role: Joi.string() // ObjectId as string
+      .length(24)
+      .hex()
+      .required()
+      .messages({
+        "string.length": responseMessage.MODERATOR.ROLE_MISSING,
+        "any.required": responseMessage.MODERATOR.ROLE_MISSING,
+      }),
 
-  // role: Joi.string() // ObjectId as string
-  //   .length(24)
-  //   .hex()
-  //   .required()
-  //   .messages({
-  //     "string.length": MSG.MODERATOR.ROLE_INVALID,
-  //     "any.required": MSG.MODERATOR.ROLE_REQUIRED,
-  //   }),
+    isActive: Joi.boolean().default(true),
+  }),
+};
 
-  // isActive: Joi.boolean().default(true),
-
-  // locationCords: Joi.object({
-  //   latitude: Joi.number().min(-90).max(90),
-  //   longitude: Joi.number().min(-180).max(180),
-  // }).optional(),
-});
-
-exports.updateModeratorSchema = Joi.object({
-  // name: Joi.string().trim().min(2).max(50),
-  // mobile: Joi.string()
-  //   .pattern(/^[0-9]{10,15}$/)
-  //   .allow(null, ""),
-  // isActive: Joi.boolean(),
-  // role: Joi.string().length(24).hex(),
-}).min(1);
+// exports.updateModeratorSchema = Joi.object({
+// name: Joi.string().trim().min(2).max(50),
+// mobile: Joi.string()
+//   .pattern(/^[0-9]{10,15}$/)
+//   .allow(null, ""),
+// isActive: Joi.boolean(),
+// role: Joi.string().length(24).hex(),
+// }).min(1);

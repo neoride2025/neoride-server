@@ -1,16 +1,17 @@
 const Joi = require("joi");
 const MSG = require("../constants/response-messages");
+const { DESCRIPTION_MAX_LENGTH } = require("../utils/util-config");
 
 const { commonNameRegex } = require("../validators/common/regex");
 
 exports.createPermissionSchema = Joi.object({
-  label: Joi.string().trim().min(3).max(25).pattern(commonNameRegex).required().messages({
+  label: Joi.string().trim().pattern(commonNameRegex).required().messages({
     "string.empty": MSG.COMMON.NAME_REQUIRED,
     "string.min": MSG.COMMON.NAME_MIN_LENGTH,
     "string.max": MSG.COMMON.NAME_MAX_LENGTH,
   }),
 
-  description: Joi.string().allow("", null).max(200).messages({
+  description: Joi.string().allow("", null).max(DESCRIPTION_MAX_LENGTH).messages({
     "string.max": MSG.COMMON.DESCRIPTION_TOO_LONG,
   }),
 

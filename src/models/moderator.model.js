@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const ROLES = require("../constants/roles");
 
 const ModeratorSchema = new mongoose.Schema(
   {
@@ -6,7 +7,7 @@ const ModeratorSchema = new mongoose.Schema(
     name: {
       type: String,
       trim: true,
-      maxlength: 30,
+      maxlength: 20,
       required: true,
     },
 
@@ -115,7 +116,7 @@ const ModeratorSchema = new mongoose.Schema(
     isActive: {
       type: Boolean,
       default: function () {
-        return this.userType === "ADMIN";
+        return this.userType === ROLES.ADMIN;
       },
     },
 

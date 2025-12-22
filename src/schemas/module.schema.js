@@ -1,7 +1,7 @@
 const Joi = require("joi");
 const MSG = require("../constants/response-messages");
-
-const { commonNameRegex } = require("../validators/common/regex");
+const { DESCRIPTION_MAX_LENGTH } = require("../utils/util-config");
+const regex= require("../validators/common/regex");
 
 exports.createModuleSchema = Joi.object({
   name: Joi.string().trim().pattern(commonNameRegex).required().messages({
@@ -9,7 +9,7 @@ exports.createModuleSchema = Joi.object({
     "any.required": MSG.MODULE.NAME_REQUIRED,
   }),
 
-  description: Joi.string().allow("", null).max(200).messages({
+  description: Joi.string().allow("", null).max(DESCRIPTION_MAX_LENGTH).messages({
     "string.max": MSG.COMMON.DESCRIPTION_TOO_LONG,
   }),
 

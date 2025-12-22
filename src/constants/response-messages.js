@@ -84,6 +84,8 @@ module.exports = {
 
     NOT_ACTIVATED: "Moderator account is not activated",
 
+    ROLE_MISSING: "Moderator role is required",
+
     FOUND: "Moderator found",
     NOT_FOUND: "Moderator not found",
     EXISTS: "Moderator already exists",
@@ -91,7 +93,7 @@ module.exports = {
     DATA_FOUND: "Moderators data found",
 
     NAME_REQUIRED: "Moderator name is required",
-    NAME_INVALID: "Moderator name must be uppercase (ADMIN, MODERATOR)",
+
     NAME_MIN_LENGTH: `Moderator name must be at least ${COMMON_NAME_MIN_LENGTH} characters long`,
     NAME_MAX_LENGTH: `Moderator name must be at most ${COMMON_NAME_MAX_LENGTH} characters long`,
   },

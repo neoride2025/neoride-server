@@ -4,10 +4,15 @@ const AppError = require("../../../../utils/AppError");
 
 const MSG = require("../../../../constants/response-messages");
 
+const Helper = require("../../../../utils/Helper");
+
 module.exports = {
-  async createModule(module) {
+  async createModule(value, sub) {
     try {
-      return await moduleRepo.createModule(module);
+      value.createdBy = req.user.sub;
+      // create key for the module with the module name (use Help function)
+      value.key = Helper.toCapsWithUnderscore(value.name, sub); // pass name, it'll generate the KEY
+      return await moduleRepo.createModule(value);
     } catch (err) {
       if (err.code === 11000) throw new AppError(409, MSG.MODULE.EXISTS);
     }

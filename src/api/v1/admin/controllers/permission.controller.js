@@ -4,95 +4,73 @@ const moduleService = require("../../shared/services/module.service");
 const permissionService = require("../services/permission.service");
 const MSG = require("../../../../constants/response-messages");
 
-const { createPermissionSchema } = require("../../../../schemas/permission.schema");
-const { generatePermissionKey } = require("../../../../utils/Helper");
-
-// function to create permission
-exports.createPermission = async (req, res, next) => {
-  try {
-    const { error, value } = createPermissionSchema.validate(req.body, {
-      abortEarly: true,
-      stripUnknown: true,
-    });
-
-    if (error) {
-      return res.status(400).json({
-        message: error.details[0].message,
+module.exports = {
+  // function to create permission
+  async createPermission(req, res, next) {
+    try {
+      const permission = await permissionService.createPermission(req.validatedBody, req.user.sub); // set created by (value from req.user.sub)
+      const newPermission = await permissionService.getPermissionById(permission._id); // will contain populated data
+      res.status(201).json({
+        status: 201,
+        message: MSG.PERMISSION.CREATED,
+        data: newPermission,
       });
+    } catch (err) {
+      next(err);
     }
-    // set created by (value from req.user.sub)
-    value.createdBy = req.user.sub;
-    // create permission key from the name
-    value.key = generatePermissionKey(value.label); // pass name, it'll generate the KEY
-    if (!value.key) {
-      return res.status(400).json({
-        status: 400,
-        message: MSG.PERMISSION.NAME_INVALID,
+  },
+
+  // will fetch the permissions from DB and store in cache
+  // if cache has data will return the data and will not touch DB
+  async getPermissionsForRole(roleKey) {
+    const cached = cache.get(roleKey);
+    if (cached) return cached;
+
+    const permissions = await roleService.getPermissionsByRoleKey(roleKey);
+    cache.set(roleKey, permissions);
+
+    return permissions;
+  },
+
+  // function to get all permissions as module grouped
+  async getAllPermissionsAsGroup(req, res, next) {
+    try {
+      const permissions = await moduleService.getPermissionsGroupedByModule();
+      res.status(200).json({
+        status: 200,
+        message: MSG.PERMISSION.DATA_FOUND,
+        data: permissions,
       });
+    } catch (err) {
+      next(err);
     }
-    const permission = await permissionService.createPermission(value);
-    const newPermission = await permissionService.getPermissionById(permission._id); // will contain populated data
-    res.status(201).json({
-      status: 201,
-      message: MSG.PERMISSION.CREATED,
-      data: newPermission,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
+  },
 
-// will fetch the permissions from DB and store in cache
-// if cache has data will return the data and will not touch DB
-exports.getPermissionsForRole = async (roleKey) => {
-  const cached = cache.get(roleKey);
-  if (cached) return cached;
+  // function to return all permissions
+  async getAllPermissions(req, res, next) {
+    try {
+      const permissions = await permissionService.getAllPermissions();
+      res.status(200).json({
+        status: 200,
+        message: MSG.PERMISSION.DATA_FOUND,
+        data: permissions,
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
 
-  const permissions = await roleService.getPermissionsByRoleKey(roleKey);
-  cache.set(roleKey, permissions);
-
-  return permissions;
-};
-
-// function to get all permissions as module grouped
-exports.getAllPermissionsAsGroup = async (req, res, next) => {
-  try {
-    const permissions = await moduleService.getPermissionsGroupedByModule();
-    res.status(200).json({
-      status: 200,
-      message: MSG.PERMISSION.DATA_FOUND,
-      data: permissions,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
-
-// function to return all permissions
-exports.getAllPermissions = async (req, res, next) => {
-  try {
-    const permissions = await permissionService.getAllPermissions();
-    res.status(200).json({
-      status: 200,
-      message: MSG.PERMISSION.DATA_FOUND,
-      data: permissions,
-    });
-  } catch (err) {
-    console.log("err : ", err);
-    next(err);
-  }
-};
-
-// function to get permission by passing the entry id
-exports.getPermissionById = async (req, res, next) => {
-  try {
-    const permission = await permissionService.getPermissionById(req.params.id);
-    res.status(200).json({
-      status: 200,
-      message: MSG.PERMISSION.FOUND,
-      data: permission,
-    });
-  } catch (err) {
-    next(err);
-  }
+  // function to get permission by passing the entry id
+  async getPermissionById(req, res, next) {
+    try {
+      const permission = await permissionService.getPermissionById(req.params.id);
+      res.status(200).json({
+        status: 200,
+        message: MSG.PERMISSION.FOUND,
+        data: permission,
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
 };

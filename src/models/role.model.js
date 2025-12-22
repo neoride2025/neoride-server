@@ -13,8 +13,7 @@ const RoleSchema = new mongoose.Schema(
     key: {
       type: String,
       required: true,
-      unique: true,
-      uppercase: true, // ADMIN, MODERATOR, SUPPORT
+      uppercase: true, // ADMIN
       trim: true,
       maxlength: 30,
     },

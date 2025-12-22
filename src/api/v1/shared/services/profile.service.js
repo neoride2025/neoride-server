@@ -4,7 +4,7 @@ const AppError = require("../../../../utils/AppError");
 const profileRepo = require("../repositories/profile.repository");
 
 module.exports = {
-  async getMyProfile({ repo, user }) {
+  async getMyProfile(user) {
     try {
       const entity = await profileRepo.getProfileDetails(user.sub);
 

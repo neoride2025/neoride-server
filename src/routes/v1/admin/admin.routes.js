@@ -7,28 +7,33 @@ const moduleCtrl = require("../../../api/v1/admin/controllers/module.controller"
 const roleCtrl = require("../../../api/v1/admin/controllers/role.controller");
 const moderatorCtrl = require("../../../api/v1/admin/controllers/moderator.controller");
 
-const verifyToken = require("../../../middlewares/auth/verify-token");
+const verifyToken = require("../../../middlewares/auth/verify-access-token");
 const requireAdmin = require("../../../middlewares/auth/require-admin");
 const requirePermission = require("../../../middlewares/auth/require-permission");
+const schemaValidation = require("../../../middlewares/schema.validation");
+const { createRoleSchema } = require("../../../schemas/role.schema");
+const { createPermissionSchema } = require("../../../schemas/permission.schema");
+
+// #region Profile
 
 // to get profile info
 router.post("/me", verifyToken, profileCtrl.getMyProfile);
 
-// to get all permissions
-router.get(
-  "/grouped-permissions",
-  verifyToken,
-  requireAdmin,
-  requirePermission(["PERMISSIONS_MANAGE"]),
-  permissionCtrl.getAllPermissionsAsGroup
-);
+// #endregion
 
 // #region Roles
 
 // to get all roles
-router.get("/roles", verifyToken, requireAdmin, requirePermission(["ROLES_MANAGE"]), roleCtrl.getAllRoles);
+router.get("/roles", verifyToken, requireAdmin, requirePermission(["VIEW_ROLES"]), roleCtrl.getRoles);
 // to create a role
-router.post("/create-role", verifyToken, requireAdmin, requirePermission(["ROLES_MANAGE"]), roleCtrl.createRole);
+router.post(
+  "/create-role",
+  verifyToken,
+  requireAdmin,
+  requirePermission(["CREATE_ROLE"]),
+  schemaValidation(createRoleSchema),
+  roleCtrl.createRole
+);
 // to update a role
 // router.put("/roles/:id", verifyToken, requireAdmin, requirePermission(["ROLES_MANAGE"]), roleCtrl.updateRole);
 // to delete a role
@@ -38,28 +43,41 @@ router.post("/create-role", verifyToken, requireAdmin, requirePermission(["ROLES
 
 // #region Modules
 
-// to create a module
-router.post(
-  "/create-module",
-  verifyToken,
-  requireAdmin,
-  requirePermission(["MODULES_MANAGE"]),
-  moduleCtrl.createModule
-);
 // to get all modules
-router.get("/modules", verifyToken, requirePermission(["MODULES_MANAGE"]), moduleCtrl.getAllModules);
+router.get("/modules", verifyToken, requireAdmin, requirePermission(["VIEW_MODULES"]), moduleCtrl.getAllModules);
+
+// to create a module
+router.post("/create-module", verifyToken, requireAdmin, requirePermission(["CREATE_MODULE"]), moduleCtrl.createModule);
 
 // #endregion
 
 // #region Permissions
 
 // to get all permissions
-router.get("/permissions", verifyToken, requirePermission(["PERMISSIONS_MANAGE"]), permissionCtrl.getAllPermissions);
+router.get(
+  "/grouped-permissions",
+  verifyToken,
+  requireAdmin,
+  requirePermission(["VIEW_PERMISSIONS"]),
+  permissionCtrl.getAllPermissionsAsGroup
+);
+
+// to get all permissions
+router.get(
+  "/permissions",
+  verifyToken,
+  requireAdmin,
+  requirePermission(["VIEW_PERMISSIONS"]),
+  permissionCtrl.getAllPermissions
+);
+
 // to create a permission
 router.post(
   "/create-permission",
   verifyToken,
-  requirePermission(["PERMISSIONS_MANAGE"]),
+  requireAdmin,
+  requirePermission(["CREATE_PERMISSION"]),
+  schemaValidation(createPermissionSchema),
   permissionCtrl.createPermission
 );
 
@@ -68,9 +86,16 @@ router.post(
 // #region Moderators
 
 // to get all moderators
-// router.get("/moderators", verifyToken, requirePermission(["USERS_MANAGE"]), moderatorCtrl.getAllModerators);
+router.get("/moderators", verifyToken, requirePermission(["VIEW_MODERATORS"]), moderatorCtrl.getAllModerators);
 // to create a moderator
-// router.post("/create-moderator", verifyToken, requireAdmin, requirePermission(["USERS_MANAGE"]), moderatorCtrl.createModerator);
+router.post(
+  "/create-moderator",
+  verifyToken,
+  requireAdmin,
+  requirePermission(["CREATE_MODERATOR"]),
+  moderatorCtrl.createModerator
+);
 
 // #endregion
+
 module.exports = router;

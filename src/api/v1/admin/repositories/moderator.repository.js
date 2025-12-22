@@ -2,17 +2,17 @@ const Moderator = require("../../../../models/moderator.model");
 
 module.exports = {
   // create moderator function
-  async createModerator(moderator) {
-    return await Moderator.create(moderator);
+  async create(payload) {
+    return await Moderator.create(payload);
   },
 
   // list all the moderators without condition
-  async listModerators() {
+  async findAll() {
     return await Moderator.aggregate(moderatorBasePipeline());
   },
 
   // find one single moderator by passing the _id
-  async findModeratorById(_id) {
+  async findById(_id) {
     const res = await Moderator.aggregate([{ $match: { _id } }, ...moderatorBasePipeline()]);
     return res[0] || null;
   },

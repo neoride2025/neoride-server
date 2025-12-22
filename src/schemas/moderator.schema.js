@@ -1,7 +1,7 @@
 const Joi = require("joi");
 const responseMessage = require("../constants/response-messages");
 const utilConfig = require("../utils/util-config");
-const regex = require("../validators/common/regex");
+const regex = require("../validators/regex");
 
 module.exports = {
   create: Joi.object({

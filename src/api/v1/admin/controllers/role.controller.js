@@ -1,6 +1,5 @@
 const roleService = require("../services/role.service");
-
-const MSG = require("../../../../constants/response-messages");
+const responseMessage = require("../../../../constants/response-messages");
 
 module.exports = {
   // function to create role
@@ -10,7 +9,7 @@ module.exports = {
       const roleDetails = await roleService.getRoleDetailsById(role._id); // will hold the detailed document
       res.status(201).json({
         status: 201,
-        message: MSG.ROLE.CREATED,
+        message: responseMessage.ROLE.CREATED,
         data: roleDetails,
       });
     } catch (err) {
@@ -24,7 +23,7 @@ module.exports = {
       const roles = await roleService.getAllRoles();
       res.status(200).json({
         status: 200,
-        message: MSG.ROLE.DATA_FOUND,
+        message: responseMessage.ROLE.DATA_FOUND,
         data: roles,
       });
     } catch (err) {

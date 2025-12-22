@@ -26,7 +26,7 @@ module.exports = {
     }
   },
 
-  async getPermissionById(id) {
+  async getPermissionDetailsById(id) {
     try {
       return await permissionRepo.findPermissionById(id);
     } catch (err) {

@@ -23,7 +23,6 @@ module.exports = {
       delete: "DELETE",
       remove: "DELETE",
       export: "EXPORT",
-      manage: "MANAGE",
     };
 
     const words = label

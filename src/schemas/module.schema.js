@@ -1,20 +1,22 @@
 const Joi = require("joi");
-const MSG = require("../constants/response-messages");
-const { DESCRIPTION_MAX_LENGTH } = require("../utils/util-config");
-const regex= require("../validators/common/regex");
+const responseMessage = require("../constants/response-messages");
+const utilConfig = require("../utils/util-config");
+const regex = require("../validators/regex");
 
-exports.createModuleSchema = Joi.object({
-  name: Joi.string().trim().pattern(commonNameRegex).required().messages({
-    "string.empty": MSG.MODULE.NAME_REQUIRED,
-    "any.required": MSG.MODULE.NAME_REQUIRED,
+module.exports = {
+  createModuleSchema: Joi.object({
+    name: Joi.string().trim().pattern(regex.commonName).required().messages({
+      "string.empty": responseMessage.MODULE.NAME_REQUIRED,
+      "any.required": responseMessage.MODULE.NAME_REQUIRED,
+    }),
+
+    description: Joi.string().allow("", null).max(utilConfig.DESCRIPTION_MAX_LENGTH).messages({
+      "string.max": responseMessage.COMMON.DESCRIPTION_TOO_LONG,
+    }),
+
+    isSystemModule: Joi.boolean().default(false),
   }),
-
-  description: Joi.string().allow("", null).max(DESCRIPTION_MAX_LENGTH).messages({
-    "string.max": MSG.COMMON.DESCRIPTION_TOO_LONG,
-  }),
-
-  isSystemModule: Joi.boolean().default(false),
-});
+};
 
 // exports.updateModuleSchema = Joi.object({
 //   name: Joi.string().trim().min(3).max(50),

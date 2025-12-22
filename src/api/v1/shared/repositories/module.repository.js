@@ -2,8 +2,8 @@ const Module = require("../../../../models/module.model");
 
 module.exports = {
   // to create modules
-  async createModule(module) {
-    return await Module.create(module);
+  async create(payload) {
+    return await Module.create(payload);
   },
 
   // function to get permissions in modules based
@@ -45,17 +45,17 @@ module.exports = {
   },
 
   // irrespective af active all modules
-  async getAllModules() {
+  async findAll() {
     return await Module.aggregate(moduleBasePipeline());
   },
 
   // will return only active modules
-  async getAllActiveModules() {
+  async findAllActive() {
     return await Module.find({ isActive: true }).lean();
   },
 
   // find module by id
-  async findModuleById(_id) {
+  async findById(_id) {
     const res = await Role.aggregate([{ $match: { _id } }, ...moduleBasePipeline()]);
     return res[0] || null;
   },

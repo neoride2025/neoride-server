@@ -2,17 +2,17 @@ const cache = require("../cache/permission.cache");
 const roleService = require("../services/role.service");
 const moduleService = require("../../shared/services/module.service");
 const permissionService = require("../services/permission.service");
-const MSG = require("../../../../constants/response-messages");
+const responseMessage = require("../../../../constants/response-messages");
 
 module.exports = {
   // function to create permission
   async createPermission(req, res, next) {
     try {
       const permission = await permissionService.createPermission(req.validatedBody, req.user.sub); // set created by (value from req.user.sub)
-      const newPermission = await permissionService.getPermissionById(permission._id); // will contain populated data
+      const newPermission = await permissionService.getPermissionDetailsById(permission._id); // will contain populated data
       res.status(201).json({
         status: 201,
-        message: MSG.PERMISSION.CREATED,
+        message: responseMessage.PERMISSION.CREATED,
         data: newPermission,
       });
     } catch (err) {
@@ -38,7 +38,7 @@ module.exports = {
       const permissions = await moduleService.getPermissionsGroupedByModule();
       res.status(200).json({
         status: 200,
-        message: MSG.PERMISSION.DATA_FOUND,
+        message: responseMessage.PERMISSION.DATA_FOUND,
         data: permissions,
       });
     } catch (err) {
@@ -52,7 +52,7 @@ module.exports = {
       const permissions = await permissionService.getAllPermissions();
       res.status(200).json({
         status: 200,
-        message: MSG.PERMISSION.DATA_FOUND,
+        message: responseMessage.PERMISSION.DATA_FOUND,
         data: permissions,
       });
     } catch (err) {
@@ -63,10 +63,10 @@ module.exports = {
   // function to get permission by passing the entry id
   async getPermissionById(req, res, next) {
     try {
-      const permission = await permissionService.getPermissionById(req.params.id);
+      const permission = await permissionService.getPermissionDetailsById(req.params.id);
       res.status(200).json({
         status: 200,
-        message: MSG.PERMISSION.FOUND,
+        message: responseMessage.PERMISSION.FOUND,
         data: permission,
       });
     } catch (err) {

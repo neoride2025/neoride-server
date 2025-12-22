@@ -1,8 +1,8 @@
 const Permission = require("../../../../models/permission.model");
 
 module.exports = {
-  async createPermission(permission) {
-    return await Permission.create(permission);
+  async createPermission(payload) {
+    return await Permission.create(payload);
   },
 
   async getPermissions() {

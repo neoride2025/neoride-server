@@ -75,6 +75,7 @@ const moderatorBasePipeline = () => [
       email: 1,
       createdAt: 1,
       isActive: 1,
+      isSystemUser: 1,
       permissions: 1,
 
       role: {
